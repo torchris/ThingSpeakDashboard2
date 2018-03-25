@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE preferences SYSTEM "http://java.sun.com/dtd/preferences.dtd">
+<preferences EXTERNAL_XML_VERSION="1.0">
+  <root type="user">
+    <map/>
+    <node name="thingspeakdashboard2">
+      <map>
+        <entry key="refreshtime" value="180000"/>
+        <entry key="samplenumber" value="200"/>
+        <entry key="sensor1_Chan_ID" value="84125"/>
+        <entry key="sensor1_ReadAPI" value="1RE6J6GBEE5FM24E"/>
+        <entry key="sensor1_Tab_Text" value="Garage"/>
+        <entry key="sensor1_Temp_Field" value="1"/>
+        <entry key="sensor1_Humd_Field" value="2"/>
+        <entry key="sensor2_Chan_ID" value="203960"/>
+        <entry key="sensor2_ReadAPI" value="XK7GCOX3WIVVNKMM"/>
+        <entry key="sensor2_Tab_Text" value="Basement"/>
+        <entry key="sensor2_Temp_Field" value="2"/>
+        <entry key="sensor2_Humd_Field" value="3"/>
+      </map>
+    </node>
+  </root>
+</preferences>

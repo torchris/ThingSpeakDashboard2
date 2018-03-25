@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="837.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thingspeakdashboard2.FXMLDocumentController">
+
+    <children>
+        <MenuBar fx:id="appMenuBar" layoutY="2.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem fx:id="exitMenuItem" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Refresh">
+                    <items>
+                        <MenuItem fx:id="autoRefreshMenuItem" mnemonicParsing="false" onAction="#handleAutoRefresh" text="Auto refresh" />
+                        <MenuItem fx:id="stopAutoRefreshMenuItem" mnemonicParsing="false" onAction="#handleStopRefresh" text="Stop refreshing" />
+                        <MenuItem fx:id="refreshOnceMenuItem" mnemonicParsing="false" onAction="#handleRefreshOnceAction" text="Refresh once" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <TabPane fx:id="sensorTabPane" layoutX="9.0" layoutY="40.0" prefHeight="774.0" prefWidth="1006.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="aTab" closable="false" text="Garage">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <LineChart fx:id="humidityGrapha" animated="false" createSymbols="false" layoutX="72.0" layoutY="29.0" legendVisible="false" prefHeight="341.0" prefWidth="809.0" title="Humidity">
+                                    <xAxis>
+                                        <CategoryAxis animated="false" label="Time" side="BOTTOM" fx:id="xAxisHumidity" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis fx:id="yAxisHumidity" animated="false" autoRanging="false" label="Relative humidity" side="LEFT" />
+                                    </yAxis>
+                                </LineChart>
+                  
+                                <LineChart id="tempGraph" fx:id="tempGrapha" animated="false" createSymbols="false" layoutX="72.0" layoutY="373.0" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="348.0" prefWidth="824.0" title="Temperature">
+                                    <xAxis>
+                                        <CategoryAxis label="Time" side="BOTTOM" fx:id="xAxis" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis fx:id="yAxis" label="Temp C" side="LEFT" />
+                                    </yAxis>
+                                </LineChart>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="bTab" text="Basement">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <LineChart fx:id="humidityGraphb" animated="false" createSymbols="false" layoutX="73.0" layoutY="14.0" legendVisible="false" prefHeight="381.0" prefWidth="828.0" title="Humidity">
+                                    <xAxis>
+                                        <CategoryAxis animated="false" label="Time" side="BOTTOM" fx:id="xAxisHumidity1" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis fx:id="yAxisHumidity1" animated="false" autoRanging="false" label="Relative humidity" side="LEFT" />
+                                    </yAxis>
+                                </LineChart>
+                                <LineChart id="tempGraph" fx:id="tempGraphb" animated="false" createSymbols="false" layoutX="71.0" layoutY="396.0" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="840.0" title="Temperature">
+                                    <xAxis>
+                                        <CategoryAxis label="Time" side="BOTTOM" fx:id="xAxis1" />
+                                    </xAxis>
+                                    <yAxis>
+                                        <NumberAxis fx:id="yAxis1" label="Temp C" side="LEFT" />
+                                    </yAxis>
+                                </LineChart>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+                <Tab fx:id="settingsTab" text="Settings">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="settingApplyButton" layoutX="440.0" layoutY="685.0" mnemonicParsing="false" onAction="#handleApplyButtonAction" text="Apply" />
+                                <Button fx:id="settingCancelButton" layoutX="515.0" layoutY="685.0" mnemonicParsing="false" onAction="#handleCancelButtonAction" text="Cancel" />
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="88.0" layoutX="23.0" layoutY="41.0" stroke="BLACK" strokeType="INSIDE" width="885.0" />
+                                <Label layoutX="165.0" layoutY="77.0" text="Refresh time:" />
+                                <Label layoutX="435.0" layoutY="77.0" text="Number of samples:" />
+                                <TextField fx:id="settingsRefreshTimeField" layoutX="265.0" layoutY="73.0" />
+                                <TextField fx:id="sampleNumField" layoutX="567.0" layoutY="73.0" />
+                                <Text layoutX="23.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Global Settings">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="453.0" layoutX="19.0" layoutY="185.0" stroke="BLACK" strokeType="INSIDE" width="888.0" />
+                                <Text layoutX="23.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sensor Tab Settings" wrappingWidth="159.611328125">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="122.0" layoutX="38.0" layoutY="238.0" stroke="BLACK" strokeType="INSIDE" width="855.0" />
+                                <Text layoutX="38.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sensor Tab 1">
+                                    <font>
+                                        <Font name="System Bold" size="13.0" />
+                                    </font>
+                                </Text>
+                                <Label layoutX="65.0" layoutY="256.0" text="ThingSpeak Channel ID:" />
+                                <Label layoutX="65.0" layoutY="289.0" text="ThingSpeak Read API:" />
+                                <Label layoutX="408.0" layoutY="256.0" text="ThingSpeak Field Number for Temp:" />
+                                <Label layoutX="400.0" layoutY="289.0" text="ThingSpeak Field Number for Humidity:" />
+                                <Label layoutX="62.0" layoutY="323.0" text="Text for tab name (location):" />
+                                <ChoiceBox fx:id="settingsTempFieldA" layoutX="622.0" layoutY="252.0" prefWidth="150.0">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="1" />
+                                            <String fx:value="2" />
+                                            <String fx:value="3" />
+                                            <String fx:value="4" />
+                                            <String fx:value="5" />
+                                            <String fx:value="6" />
+                                            <String fx:value="7" />
+                                            <String fx:value="8" />
+                                        </FXCollections>
+                                    </items>
+                                </ChoiceBox>
+
+                                <ChoiceBox fx:id="settingsHumidityFieldA" layoutX="622.0" layoutY="287.0" prefWidth="150.0">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="1" />
+                                            <String fx:value="2" />
+                                            <String fx:value="3" />
+                                            <String fx:value="4" />
+                                            <String fx:value="5" />
+                                            <String fx:value="6" />
+                                            <String fx:value="7" />
+                                            <String fx:value="8" />
+                                        </FXCollections>
+                                    </items>
+                                </ChoiceBox>
+                        <TextField fx:id="settingsChanIDFieldTabA" layoutX="219.0" layoutY="252.0" />
+                        <TextField fx:id="settingsReadAPIField" layoutX="219.0" layoutY="285.0" />
+                        <TextField fx:id="settingsTabNameField" layoutX="219.0" layoutY="319.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="122.0" layoutX="38.0" layoutY="427.0" stroke="BLACK" strokeType="INSIDE" width="855.0" />
+                        <TextField fx:id="settingsTabNameFieldB" layoutX="219.0" layoutY="508.0" />
+                        <TextField fx:id="settingsReadAPIFieldB" layoutX="219.0" layoutY="474.0" />
+                        <TextField fx:id="settingsChanIDFieldTabB" layoutX="219.0" layoutY="441.0" />
+                        <ChoiceBox fx:id="settingsHumidityFieldB" layoutX="622.0" layoutY="476.0" prefWidth="150.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="1" />
+                                 <String fx:value="2" />
+                                 <String fx:value="3" />
+                                 <String fx:value="4" />
+                                 <String fx:value="5" />
+                                 <String fx:value="6" />
+                                 <String fx:value="7" />
+                                 <String fx:value="8" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
+                        <ChoiceBox fx:id="settingsTempFieldB" layoutX="622.0" layoutY="441.0" prefWidth="150.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="1" />
+                                 <String fx:value="2" />
+                                 <String fx:value="3" />
+                                 <String fx:value="4" />
+                                 <String fx:value="5" />
+                                 <String fx:value="6" />
+                                 <String fx:value="7" />
+                                 <String fx:value="8" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
+                        <Label layoutX="62.0" layoutY="512.0" text="Text for tab name (location):" />
+                        <Label layoutX="400.0" layoutY="478.0" text="ThingSpeak Field Number for Humidity:" />
+                        <Label layoutX="408.0" layoutY="445.0" text="ThingSpeak Field Number for Temp:" />
+                        <Label layoutX="65.0" layoutY="478.0" text="ThingSpeak Read API:" />
+                        <Label layoutX="65.0" layoutY="445.0" text="ThingSpeak Channel ID:" />
+                        <Text layoutX="38.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sensor Tab 2">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Text>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Label fx:id="RefreshNum" layoutX="338.0" layoutY="6.0" text="Ref" />
+        <Label fx:id="RefreshNumLabel" layoutX="234.0" layoutY="6.0" text="Autorefreshing:">
+            <font>
+                <Font name="System Bold" size="12.0" />
+            </font>
+        </Label>
+        <Group />
+    </children>
+</AnchorPane>
