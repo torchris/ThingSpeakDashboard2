@@ -70,7 +70,7 @@ public class FXMLDocumentController implements Initializable {
         System.out.println(pref.get("sensor1_ReadAPI", "xxxxxx"));
         settingsTabNameField.setText(pref.get("sensor1_Tab_Text", "1234"));
         settingsTempFieldA.setValue(pref.get("sensor1_Temp_Field", "1234"));
-        settingsHumidityFieldA.setValue(pref.get("sensor2_Humd_Field", "1234"));
+        settingsHumidityFieldA.setValue(pref.get("sensor1_Humd_Field", "1234"));
         settingsChanIDFieldTabB.setText(pref.get("sensor2_Chan_ID", "1234"));
         settingsReadAPIFieldB.setText(pref.get("sensor2_ReadAPI", "1234"));
         settingsTabNameFieldB.setText(pref.get("sensor2_Tab_Text", "1234"));

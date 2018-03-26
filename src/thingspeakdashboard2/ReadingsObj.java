@@ -48,7 +48,6 @@ public class ReadingsObj {
     public ReadingsObj(int chanID, String readAPI, int tempID, int humdID, Tab tabName, String tabText, LineChart tempGraphName, LineChart humdGraphName) {
         this.chanID = chanID;
         this.readAPI = readAPI;
-//        this.sampleNum = sampleNum;
         this.tempID = tempID;
         this.humdID = humdID;
         this.tabName = tabName;
@@ -59,24 +58,24 @@ public class ReadingsObj {
     }
 
     /**
-     * sets the ThingSpeak channel ID
-     * @param chanID 
+     * Sets the ThingSpeak channel ID
+     * @param chanID integer channel ID in the ThingSpeak interface
      */   
     public void setchanID(int chanID) {
         this.chanID = chanID;
     }
 
     /**
-     * 
-     * @return 
+     * Gets the ThingSpeak channel ID number from the object.
+     * @return integer of the channel ID on ThingSpeak.
      */
     public int getchanID() {
         return chanID;
     }
 
     /**
-     * 
-     * @param readAPI 
+     * Read API for the channel referenced by the chanID field.
+     * @param readAPI String value for the Read API from the ThingSpeak interface.
      */
     
     public void setreadAPI(String readAPI) {
