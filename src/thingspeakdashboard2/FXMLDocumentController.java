@@ -38,6 +38,7 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 import javafx.scene.control.ChoiceBox;
+import eu.hansolo.medusa.Gauge;
 
 /**
  *
@@ -88,6 +89,10 @@ public class FXMLDocumentController implements Initializable {
 
         writeToGraph(tabA.getTempGraphName(), tabA, tabA.gettempID());
         writeToGraph(tabA.getHumdGraphName(), tabA, tabA.gethumdID());
+        Feed tabAfeed = tabA.getThingFeed();
+        Sensor1TempGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gettempID())));
+        Sensor1HumdGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gethumdID())));
+        Sensor1SummaryLabel.setText(tabA.getTabText());
 
         ReadingsObj tabB = new ReadingsObj(
                 Integer.parseInt(pref.get("sensor2_Chan_ID", "1234")),
@@ -100,7 +105,10 @@ public class FXMLDocumentController implements Initializable {
 
         writeToGraph(tabB.getTempGraphName(), tabB, tabB.gettempID());
         writeToGraph(tabB.getHumdGraphName(), tabB, tabB.gethumdID());
-
+        Feed tabBfeed = tabB.getThingFeed();
+        Sensor2TempGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gettempID())));
+        Sensor2HumdGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gethumdID())));
+        Sensor2SummaryLabel.setText(tabB.getTabText());
     }
 
     public void SetPrefs(
@@ -372,13 +380,31 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField settingsTabNameFieldB;
 
+    @FXML
+    private Gauge Sensor1TempGauge;
+
+    @FXML
+    private Gauge Sensor1HumdGauge;
+
+    @FXML
+    private Gauge Sensor2TempGauge;
+
+    @FXML
+    private Gauge Sensor2HumdGauge;
+    
+    @FXML
+    private Label Sensor1SummaryLabel;
+    
+    @FXML 
+    private Label Sensor2SummaryLabel;
+
     //=================Initialize and start application=========//
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
             BasicConfigurator.configure();
-           
+
             stopAutoRefreshMenuItem.setDisable(true);
             GetPrefs();
             RefreshNum.setVisible(false);
