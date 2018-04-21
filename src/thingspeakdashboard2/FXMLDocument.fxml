@@ -43,26 +43,38 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="284.0" layoutX="61.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="905.0" />
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="316.0" layoutX="55.0" layoutY="401.0" stroke="BLACK" strokeType="INSIDE" width="905.0" />
-                        <Label fx:id="Sensor1SummaryLabel" layoutX="61.0" layoutY="28.0" text="Label">
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="284.0" layoutX="108.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="791.0" />
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="316.0" layoutX="110.0" layoutY="401.0" stroke="BLACK" strokeType="INSIDE" width="788.0" />
+                        <Label fx:id="Sensor1SummaryLabel" layoutX="108.0" layoutY="24.0" text="Label">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold Italic" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="Sensor2SummaryLabel" layoutX="61.0" layoutY="359.0" text="Label">
+                        <Label fx:id="Sensor2SummaryLabel" layoutX="110.0" layoutY="359.0" text="Label">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold Italic" size="18.0" />
                            </font>
                         </Label>
-                        <Gauge fx:id="Sensor1TempGauge" layoutX="150.0" layoutY="77.0" />
-                        <Gauge fx:id="Sensor1HumdGauge" layoutX="577.0" layoutY="77.0" />
-                        <Gauge fx:id="Sensor2HumdGauge" layoutX="596.0" layoutY="434.0" />
-                        <Gauge fx:id="Sensor2TempGauge" layoutX="169.0" layoutY="434.0" />
-                        <Label layoutX="250.0" layoutY="311.0" text="Temperature" />
-                        <Label layoutX="260.0" layoutY="676.0" text="Temperature" />
-                        <Label layoutX="697.0" layoutY="676.0" text="Humidity" />
-                        <Label layoutX="678.0" layoutY="311.0" text="Humidity" />
+                        <Gauge fx:id="Sensor1TempGauge" animated="true" layoutX="150.0" layoutY="77.0" lcdCrystalEnabled="true" lcdDesign="BLUE_BLACK" lcdVisible="true" maxValue="50.0" unit="° C" />
+                        <Gauge fx:id="Sensor1HumdGauge" layoutX="577.0" layoutY="77.0" lcdDesign="BLUE_BLACK" lcdVisible="true" unit="\%" />
+                        <Gauge fx:id="Sensor2HumdGauge" layoutX="577.0" layoutY="434.0" lcdDesign="BLUE_BLACK" lcdVisible="true" unit="\%" />
+                        <Gauge fx:id="Sensor2TempGauge" layoutX="169.0" layoutY="434.0" lcdDesign="BLUE_BLACK" lcdVisible="true" maxValue="50.0" unit="° C" />
+                        <Label layoutX="232.0" layoutY="310.0" text="Temperature">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="232.0" layoutY="675.0" text="Temperature">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="671.0" layoutY="675.0" text="Humidity">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
+                        <Label layoutX="671.0" layoutY="310.0" text="Humidity">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Label>
                      </children>
                   </AnchorPane>
                </content>
