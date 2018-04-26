@@ -18,8 +18,9 @@ import java.text.SimpleDateFormat;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+import org.apache.log4j.Logger;
+//import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
@@ -39,6 +40,8 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 import javafx.scene.control.ChoiceBox;
 import eu.hansolo.medusa.Gauge;
+import org.apache.log4j.Priority;
+
 
 /**
  *
@@ -48,6 +51,7 @@ public class FXMLDocumentController implements Initializable {
 
     public static SettingsObj settings = new SettingsObj(125, 120000);
     Preferences pref = Preferences.userNodeForPackage(FXMLDocumentController.class);
+      static Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
 
     //============= Methods that do stuff ==================//
     public void GetPrefs() throws ThingSpeakException, UnirestException, FileNotFoundException {
@@ -56,10 +60,12 @@ public class FXMLDocumentController implements Initializable {
             try {
                 pref.importPreferences(is);
             } catch (InvalidPreferencesFormatException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                log.log(Priority.ERROR, ex);
+                //Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            log.log(Priority.ERROR, ex);
+//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         settings.setRefreshTime(Integer.parseInt(pref.get("refreshtime", "180000")));
@@ -140,9 +146,11 @@ public class FXMLDocumentController implements Initializable {
             pref.put("sensor2_Humd_Field", sensor2HumdField);
             pref.exportSubtree(new BufferedOutputStream(new FileOutputStream("preferences.xml")));
         } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            log.log(Priority.ERROR, ex);
+            //Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (BackingStoreException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            log.log(Priority.ERROR, ex);
+            //Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -178,13 +186,15 @@ public class FXMLDocumentController implements Initializable {
                                 try {
                                     GetPrefs();
                                 } catch (FileNotFoundException ex) {
-                                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                                    log.log(Priority.ERROR, ex);
+//                                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 //graphData(garage);
                                 RefreshNum.setText(runTask.messageProperty().getValue());
                                 System.out.println("Looping!");
                             } catch (ThingSpeakException | UnirestException ex) {
-                                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                                log.log(Priority.ERROR, ex);
+//                                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     });
@@ -250,7 +260,8 @@ public class FXMLDocumentController implements Initializable {
             GetPrefs();
             System.out.println("You clicked me!");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            log.log(Priority.ERROR, ex);
+//            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -294,16 +305,19 @@ public class FXMLDocumentController implements Initializable {
                         settingsTempFieldB.getValue(),
                         settingsHumidityFieldB.getValue());
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                log.log(Priority.ERROR, ex);
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 GetPrefs();
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                log.log(Priority.ERROR, ex);
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (ThingSpeakException | UnirestException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                log.log(Priority.ERROR, ex);
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -399,6 +413,9 @@ public class FXMLDocumentController implements Initializable {
     private Label Sensor2SummaryLabel;
 
     //=================Initialize and start application=========//
+    
+
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -409,8 +426,14 @@ public class FXMLDocumentController implements Initializable {
             GetPrefs();
             RefreshNum.setVisible(false);
             RefreshNumLabel.setVisible(false);
+            
+     log.debug("Hello this is an debug message");
+     log.error("Hello this is an error message");
+            
+
         } catch (ThingSpeakException | UnirestException | FileNotFoundException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                            log.log(Priority.ERROR, ex);
+//                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
