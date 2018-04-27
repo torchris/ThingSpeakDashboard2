@@ -52,6 +52,7 @@ public class FXMLDocumentController implements Initializable {
     public static SettingsObj settings = new SettingsObj(125, 120000);
     Preferences pref = Preferences.userNodeForPackage(FXMLDocumentController.class);
       static Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
+      log.getRootLogger().setLevel(Level.DEBUG);
 
     //============= Methods that do stuff ==================//
     public void GetPrefs() throws ThingSpeakException, UnirestException, FileNotFoundException {
