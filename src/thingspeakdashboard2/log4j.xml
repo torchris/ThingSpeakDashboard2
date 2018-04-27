@@ -4,9 +4,9 @@
 	xmlns:log4j='http://jakarta.apache.org/log4j/'>
 
 	<appender name="file" class="org.apache.log4j.RollingFileAppender">
-	   <param name="append" value="false" />
-	   <param name="maxFileSize" value="10KB" />
-	   <param name="maxBackupIndex" value="5" />
+	   <param name="append" value="true" />
+	   <param name="maxFileSize" value="1MB" />
+	   <param name="maxBackupIndex" value="2" />
 	   <!-- For Tomcat -->
 	   <param name="file" value="log.out" />
 	   <layout class="org.apache.log4j.PatternLayout">

@@ -7,9 +7,9 @@
       <map>
         <entry key="refreshtime" value="180000"/>
         <entry key="samplenumber" value="200"/>
-        <entry key="sensor1_Chan_ID" value="84125"/>
-        <entry key="sensor1_ReadAPI" value="1RE6J6GBEE5FM24E"/>
-        <entry key="sensor1_Tab_Text" value="Garage"/>
+        <entry key="sensor1_Chan_ID" value="116394"/>
+        <entry key="sensor1_ReadAPI" value="MDDTL4AVRO0GKZ6F"/>
+        <entry key="sensor1_Tab_Text" value="Outdoor"/>
         <entry key="sensor1_Temp_Field" value="1"/>
         <entry key="sensor1_Humd_Field" value="2"/>
         <entry key="sensor2_Chan_ID" value="203960"/>
