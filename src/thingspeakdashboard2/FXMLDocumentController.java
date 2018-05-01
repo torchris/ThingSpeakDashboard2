@@ -131,7 +131,8 @@ public class FXMLDocumentController implements Initializable {
             String sensor2ReadAPI,
             String tabBText,
             String sensor2TempField,
-            String sensor2HumdField) throws ThingSpeakException, UnirestException, FileNotFoundException {
+            String sensor2HumdField,
+            String logLevel) throws ThingSpeakException, UnirestException, FileNotFoundException {
 
         try {
             pref.put("refreshtime", refreshTime);
@@ -146,6 +147,7 @@ public class FXMLDocumentController implements Initializable {
             pref.put("sensor2_Tab_Text", tabBText);
             pref.put("sensor2_Temp_Field", sensor2TempField);
             pref.put("sensor2_Humd_Field", sensor2HumdField);
+            pref.put("defaultLogLevel", logLevel);
             pref.exportSubtree(new BufferedOutputStream(new FileOutputStream("preferences.xml")));
         } catch (IOException ex) {
             log.log(Priority.ERROR, ex);
@@ -304,7 +306,8 @@ public class FXMLDocumentController implements Initializable {
                         settingsReadAPIFieldB.getText(),
                         settingsTabNameFieldB.getText(),
                         settingsTempFieldB.getValue(),
-                        settingsHumidityFieldB.getValue());
+                        settingsHumidityFieldB.getValue(),
+                        settingsLogLeveldrop.getValue());
                         setLogLevel((String) settingsLogLeveldrop.getValue());
             } catch (FileNotFoundException ex) {
                 log.log(Priority.ERROR, ex);
