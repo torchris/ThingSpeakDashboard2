@@ -18,6 +18,7 @@ public class SettingsObj {
 
     static private int sampNum;
     static private int refreshTime;
+    static private String logLev;
     
     /**
      * Default constructor for SettingsObj object
@@ -25,9 +26,10 @@ public class SettingsObj {
      * @param refreshTime integer value of refresh time in milliseconds.
      */
 
-    public SettingsObj(int sampNum, int refreshTime) {
+    public SettingsObj(int sampNum, int refreshTime, String logLev) {
         this.sampNum = sampNum;
         this.refreshTime = refreshTime;
+        this.logLev = logLev;
     }
     
     /**
@@ -66,4 +68,16 @@ public class SettingsObj {
         return refreshTime;
     }
 
+        public void setLogLevel(String logLev) {
+        this.logLev = logLev;
+    }
+    
+    /**
+     * Returns the refresh interval in milliseconds
+     * @return integer value of refresh interval.
+     */
+
+    public String getLogLevel() {
+        return logLev;
+    }
 }

@@ -7,6 +7,7 @@
       <map>
         <entry key="refreshtime" value="180000"/>
         <entry key="samplenumber" value="250"/>
+        <entry key="defaultLogLevel" value="INFO"/>
         <entry key="sensor1_Chan_ID" value="84125"/>
         <entry key="sensor1_ReadAPI" value="1RE6J6GBEE5FM24E"/>
         <entry key="sensor1_Tab_Text" value="Garage"/>

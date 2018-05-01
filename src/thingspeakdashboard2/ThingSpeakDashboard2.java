@@ -25,6 +25,7 @@ public class ThingSpeakDashboard2 extends Application {
         
         stage.setScene(scene);
         stage.show();
+        
     }
 
     /**

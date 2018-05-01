@@ -38,6 +38,7 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 import javafx.scene.control.ChoiceBox;
 import eu.hansolo.medusa.Gauge;
+import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
 
 
@@ -47,9 +48,11 @@ import org.apache.log4j.Priority;
  */
 public class FXMLDocumentController implements Initializable {
 
-    public static SettingsObj settings = new SettingsObj(125, 120000);
+    public static SettingsObj settings = new SettingsObj(125, 120000, "INFO");
     Preferences pref = Preferences.userNodeForPackage(FXMLDocumentController.class);
-      static Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
+    Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
+   
+
 
     //============= Methods that do stuff ==================//
     public void GetPrefs() throws ThingSpeakException, UnirestException, FileNotFoundException {
@@ -66,6 +69,7 @@ public class FXMLDocumentController implements Initializable {
 
         settings.setRefreshTime(Integer.parseInt(pref.get("refreshtime", "180000")));
         settings.setSampNum(Integer.parseInt(pref.get("samplenumber", "120")));
+        settings.setLogLevel(pref.get("defaultLogLevel", "INFO"));
         sampleNumField.setText(Integer.toString(settings.getSampNum()));
         settingsRefreshTimeField.setText(Integer.toString(settings.getRefreshTime()));
         settingsChanIDFieldTabA.setText(pref.get("sensor1_Chan_ID", "1234"));
@@ -79,6 +83,8 @@ public class FXMLDocumentController implements Initializable {
         settingsTabNameFieldB.setText(pref.get("sensor2_Tab_Text", "1234"));
         settingsTempFieldB.setValue(pref.get("sensor2_Temp_Field", "1234"));
         settingsHumidityFieldB.setValue(pref.get("sensor2_Humd_Field", "1234"));
+        settingsLogLeveldrop.setValue(settings.getLogLevel());
+        setLogLevel(settings.getLogLevel());
 
         ReadingsObj tabA = new ReadingsObj(
                 Integer.parseInt(pref.get("sensor1_Chan_ID", "1234")),
@@ -223,6 +229,12 @@ public class FXMLDocumentController implements Initializable {
         targetGraph.getData().addAll(dataSeries);
 
     }
+    
+    public void setLogLevel(String logLev){
+        Level levLevel = Level.toLevel(logLev);
+                     Logger root = Logger.getRootLogger();
+     root.setLevel(levLevel);
+    }
 
 //==============Interface action handlers================//
     @FXML
@@ -275,6 +287,7 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("You entered in the Refresh Interval field: " + settingsRefreshTimeField.getText());
             settings.setSampNum(Integer.parseInt(sampleNumField.getText()));
             settings.setRefreshTime(Integer.parseInt(settingsRefreshTimeField.getText()));
+            settings.setLogLevel((String) settingsLogLeveldrop.getValue());
             tempGrapha.getData().clear();
             humidityGrapha.getData().clear();
             tempGraphb.getData().clear();
@@ -292,6 +305,7 @@ public class FXMLDocumentController implements Initializable {
                         settingsTabNameFieldB.getText(),
                         settingsTempFieldB.getValue(),
                         settingsHumidityFieldB.getValue());
+                        setLogLevel((String) settingsLogLeveldrop.getValue());
             } catch (FileNotFoundException ex) {
                 log.log(Priority.ERROR, ex);
             }
@@ -396,6 +410,9 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML 
     private Label Sensor2SummaryLabel;
+    
+        @FXML
+    private ChoiceBox<String> settingsLogLeveldrop;
 
     //=================Initialize and start application=========//
     
@@ -403,7 +420,7 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
         try {
             BasicConfigurator.configure();
 
@@ -414,8 +431,8 @@ public class FXMLDocumentController implements Initializable {
             
      log.debug("Hello this is an debug message");
      log.error("Hello this is an error message");
-            
 
+  
         } catch (ThingSpeakException | UnirestException | FileNotFoundException ex) {
                             log.log(Priority.ERROR, ex);
         }
