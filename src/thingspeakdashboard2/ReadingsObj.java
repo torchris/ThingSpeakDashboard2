@@ -200,12 +200,10 @@ public class ReadingsObj {
     public Feed getThingFeed() throws UnirestException, ThingSpeakException  {
 
         Channel sensorChannel = new Channel(chanID, readAPI);
-        System.out.println("================> Feed obj");
         FeedParameters options = new FeedParameters();
         options.results(settings.getSampNum());
         Feed feed = sensorChannel.getChannelFeed(options);
         Entry feedEntry = feed.getEntry(feed.getChannelLastEntryId());
-        System.out.println("Last ID value: " + feed.getChannelLastEntryId());
         return feed;
     }
 }

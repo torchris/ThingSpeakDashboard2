@@ -17,7 +17,7 @@
         <entry key="sensor2_Tab_Text" value="Basement"/>
         <entry key="sensor2_Temp_Field" value="2"/>
         <entry key="sensor2_Humd_Field" value="3"/>
-        <entry key="defaultLogLevel" value="OFF"/>
+        <entry key="defaultLogLevel" value="INFO"/>
       </map>
     </node>
   </root>

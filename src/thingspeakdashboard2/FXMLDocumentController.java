@@ -41,7 +41,6 @@ import eu.hansolo.medusa.Gauge;
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
 
-
 /**
  *
  * @author Chris
@@ -51,8 +50,6 @@ public class FXMLDocumentController implements Initializable {
     public static SettingsObj settings = new SettingsObj(125, 120000, "INFO");
     Preferences pref = Preferences.userNodeForPackage(FXMLDocumentController.class);
     Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
-   
-
 
     //============= Methods that do stuff ==================//
     public void GetPrefs() throws ThingSpeakException, UnirestException, FileNotFoundException {
@@ -74,7 +71,6 @@ public class FXMLDocumentController implements Initializable {
         settingsRefreshTimeField.setText(Integer.toString(settings.getRefreshTime()));
         settingsChanIDFieldTabA.setText(pref.get("sensor1_Chan_ID", "1234"));
         settingsReadAPIField.setText(pref.get("sensor1_ReadAPI", "xxxxxx"));
-        System.out.println(pref.get("sensor1_ReadAPI", "xxxxxx"));
         settingsTabNameField.setText(pref.get("sensor1_Tab_Text", "1234"));
         settingsTempFieldA.setValue(pref.get("sensor1_Temp_Field", "1234"));
         settingsHumidityFieldA.setValue(pref.get("sensor1_Humd_Field", "1234"));
@@ -175,7 +171,7 @@ public class FXMLDocumentController implements Initializable {
                     }
                     updateMessage("Refresh " + iterations);
                     updateProgress(iterations, 1000);
-                    System.out.println("Loop num: " + iterations);
+                    log.info("Loop num: " + iterations);
 
                     Platform.runLater(new Runnable() {
                         @Override
@@ -192,7 +188,7 @@ public class FXMLDocumentController implements Initializable {
                                 }
                                 //graphData(garage);
                                 RefreshNum.setText(runTask.messageProperty().getValue());
-                                System.out.println("Looping!");
+                                log.info("Looping!");
                             } catch (ThingSpeakException | UnirestException ex) {
                                 log.log(Priority.ERROR, ex);
 
@@ -231,11 +227,11 @@ public class FXMLDocumentController implements Initializable {
         targetGraph.getData().addAll(dataSeries);
 
     }
-    
-    public void setLogLevel(String logLev){
+
+    public void setLogLevel(String logLev) {
         Level levLevel = Level.toLevel(logLev);
-                     Logger root = Logger.getRootLogger();
-     root.setLevel(levLevel);
+        Logger root = Logger.getRootLogger();
+        root.setLevel(levLevel);
     }
 
 //==============Interface action handlers================//
@@ -250,7 +246,7 @@ public class FXMLDocumentController implements Initializable {
         humidityGrapha.getData().clear();
         humidityGrapha.getData().clear();
         runTaskThing();
-        System.out.println("Auto Refreshing!");
+        log.info("Auto refresh turned on!");
     }
 
     @FXML
@@ -261,7 +257,7 @@ public class FXMLDocumentController implements Initializable {
             humidityGrapha.getData().clear();
             humidityGrapha.getData().clear();
             GetPrefs();
-            System.out.println("You clicked me!");
+            log.info("Refresh once button pushed");
         } catch (FileNotFoundException ex) {
             log.log(Priority.ERROR, ex);
         }
@@ -269,7 +265,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void handleExit(ActionEvent event) throws ThingSpeakException, UnirestException {
-        System.out.println("Good bye!");
+        log.info("Shutting down");
         Platform.exit();
     }
 
@@ -278,15 +274,13 @@ public class FXMLDocumentController implements Initializable {
         autoRefreshMenuItem.setDisable(false);
         stopAutoRefreshMenuItem.setDisable(true);
         RefreshNum.setText("Stopped");
-        System.out.println("Stopping");
+        log.info("Stopped refreshing");
         runTask.cancel(true);
     }
 
     @FXML
     public void handleApplyButtonAction(ActionEvent event) {
         try {
-            System.out.println("You entered in the Sample Number field: " + sampleNumField.getText());
-            System.out.println("You entered in the Refresh Interval field: " + settingsRefreshTimeField.getText());
             settings.setSampNum(Integer.parseInt(sampleNumField.getText()));
             settings.setRefreshTime(Integer.parseInt(settingsRefreshTimeField.getText()));
             settings.setLogLevel((String) settingsLogLeveldrop.getValue());
@@ -294,6 +288,7 @@ public class FXMLDocumentController implements Initializable {
             humidityGrapha.getData().clear();
             tempGraphb.getData().clear();
             humidityGraphb.getData().clear();
+            log.info("Settings apply button clicked");
             try {
                 SetPrefs(settingsRefreshTimeField.getText(),
                         sampleNumField.getText(),
@@ -308,7 +303,7 @@ public class FXMLDocumentController implements Initializable {
                         settingsTempFieldB.getValue(),
                         settingsHumidityFieldB.getValue(),
                         settingsLogLeveldrop.getValue());
-                        setLogLevel((String) settingsLogLeveldrop.getValue());
+                setLogLevel((String) settingsLogLeveldrop.getValue());
             } catch (FileNotFoundException ex) {
                 log.log(Priority.ERROR, ex);
             }
@@ -319,13 +314,13 @@ public class FXMLDocumentController implements Initializable {
             }
 
         } catch (ThingSpeakException | UnirestException ex) {
-                log.log(Priority.ERROR, ex);
+            log.log(Priority.ERROR, ex);
         }
     }
 
     @FXML
     public void handleCancelButtonAction(ActionEvent event) {
-        System.out.println("Boo ya");
+        log.info("Clicked cancel button.");
     }
 
     //=================Interface elements===============//
@@ -407,23 +402,20 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Gauge Sensor2HumdGauge;
-    
+
     @FXML
     private Label Sensor1SummaryLabel;
-    
-    @FXML 
+
+    @FXML
     private Label Sensor2SummaryLabel;
-    
-        @FXML
+
+    @FXML
     private ChoiceBox<String> settingsLogLeveldrop;
 
     //=================Initialize and start application=========//
-    
-
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         try {
             BasicConfigurator.configure();
 
@@ -431,13 +423,12 @@ public class FXMLDocumentController implements Initializable {
             GetPrefs();
             RefreshNum.setVisible(false);
             RefreshNumLabel.setVisible(false);
-            
-     log.debug("Hello this is an debug message");
-     log.error("Hello this is an error message");
+            log.info("Application startup");
+            log.debug("Hello this is an debug message");
+            log.error("Hello this is an error message");
 
-  
         } catch (ThingSpeakException | UnirestException | FileNotFoundException ex) {
-                            log.log(Priority.ERROR, ex);
+            log.log(Priority.ERROR, ex);
         }
 
     }
