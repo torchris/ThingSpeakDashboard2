@@ -38,6 +38,7 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 import javafx.scene.control.ChoiceBox;
 import eu.hansolo.medusa.Gauge;
+import java.io.File;
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
 
@@ -52,70 +53,8 @@ public class FXMLDocumentController implements Initializable {
     Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
 
     //============= Methods that do stuff ==================//
-    public void GetPrefs() throws ThingSpeakException, UnirestException, FileNotFoundException {
-
-        try (InputStream is = new BufferedInputStream(new FileInputStream("preferences.xml"))) {
-            try {
-                pref.importPreferences(is);
-            } catch (InvalidPreferencesFormatException ex) {
-                log.log(Priority.ERROR, ex);
-            }
-        } catch (IOException ex) {
-            log.log(Priority.ERROR, ex);
-        }
-
-        settings.setRefreshTime(Integer.parseInt(pref.get("refreshtime", "180000")));
-        settings.setSampNum(Integer.parseInt(pref.get("samplenumber", "120")));
-        settings.setLogLevel(pref.get("defaultLogLevel", "INFO"));
-        sampleNumField.setText(Integer.toString(settings.getSampNum()));
-        settingsRefreshTimeField.setText(Integer.toString(settings.getRefreshTime()));
-        settingsChanIDFieldTabA.setText(pref.get("sensor1_Chan_ID", "1234"));
-        settingsReadAPIField.setText(pref.get("sensor1_ReadAPI", "xxxxxx"));
-        settingsTabNameField.setText(pref.get("sensor1_Tab_Text", "1234"));
-        settingsTempFieldA.setValue(pref.get("sensor1_Temp_Field", "1234"));
-        settingsHumidityFieldA.setValue(pref.get("sensor1_Humd_Field", "1234"));
-        settingsChanIDFieldTabB.setText(pref.get("sensor2_Chan_ID", "1234"));
-        settingsReadAPIFieldB.setText(pref.get("sensor2_ReadAPI", "1234"));
-        settingsTabNameFieldB.setText(pref.get("sensor2_Tab_Text", "1234"));
-        settingsTempFieldB.setValue(pref.get("sensor2_Temp_Field", "1234"));
-        settingsHumidityFieldB.setValue(pref.get("sensor2_Humd_Field", "1234"));
-        settingsLogLeveldrop.setValue(settings.getLogLevel());
-        setLogLevel(settings.getLogLevel());
-
-        ReadingsObj tabA = new ReadingsObj(
-                Integer.parseInt(pref.get("sensor1_Chan_ID", "1234")),
-                pref.get("sensor1_ReadAPI", "xxxxxx"),
-                Integer.parseInt(pref.get("sensor1_Temp_Field", "1234")),
-                Integer.parseInt(pref.get("sensor1_Humd_Field", "1234")),
-                aTab,
-                pref.get("sensor1_Tab_Text", "xxxxxx"),
-                tempGrapha, humidityGrapha);
-
-        writeToGraph(tabA.getTempGraphName(), tabA, tabA.gettempID());
-        writeToGraph(tabA.getHumdGraphName(), tabA, tabA.gethumdID());
-        Feed tabAfeed = tabA.getThingFeed();
-        Sensor1TempGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gettempID())));
-        Sensor1HumdGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gethumdID())));
-        Sensor1SummaryLabel.setText(tabA.getTabText());
-
-        ReadingsObj tabB = new ReadingsObj(
-                Integer.parseInt(pref.get("sensor2_Chan_ID", "1234")),
-                pref.get("sensor2_ReadAPI", "xxxxxx"),
-                Integer.parseInt(pref.get("sensor2_Temp_Field", "1234")),
-                Integer.parseInt(pref.get("sensor2_Humd_Field", "1234")),
-                bTab,
-                pref.get("sensor2_Tab_Text", "xxxxxx"),
-                tempGraphb, humidityGraphb);
-
-        writeToGraph(tabB.getTempGraphName(), tabB, tabB.gettempID());
-        writeToGraph(tabB.getHumdGraphName(), tabB, tabB.gethumdID());
-        Feed tabBfeed = tabB.getThingFeed();
-        Sensor2TempGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gettempID())));
-        Sensor2HumdGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gethumdID())));
-        Sensor2SummaryLabel.setText(tabB.getTabText());
-    }
-
-    public void SetPrefs(
+    
+        public void SetPrefs(
             String refreshTime,
             String sampleNumber,
             String sensor1ChanID,
@@ -150,6 +89,98 @@ public class FXMLDocumentController implements Initializable {
         } catch (BackingStoreException ex) {
             log.log(Priority.ERROR, ex);
         }
+
+    }
+        
+    public void GetPrefs() throws ThingSpeakException, UnirestException, FileNotFoundException {
+
+        try (InputStream is = new BufferedInputStream(new FileInputStream("preferences.xml"))) {
+            try {
+                pref.importPreferences(is);
+                log.info("Preferences.xml file found!");
+            } catch (InvalidPreferencesFormatException ex) {
+                log.error("Preferences.xml not found! ");
+            }
+        } catch (IOException ex) {
+            log.log(Priority.ERROR, ex);
+        }
+
+        settings.setRefreshTime(Integer.parseInt(pref.get("refreshtime", "180000")));
+        settings.setSampNum(Integer.parseInt(pref.get("samplenumber", "120")));
+        settings.setLogLevel(pref.get("defaultLogLevel", "INFO"));
+        sampleNumField.setText(Integer.toString(settings.getSampNum()));
+        settingsRefreshTimeField.setText(Integer.toString(settings.getRefreshTime()));
+        settingsChanIDFieldTabA.setText(pref.get("sensor1_Chan_ID", "1234"));
+        settingsReadAPIField.setText(pref.get("sensor1_ReadAPI", "xxxxxx"));
+        settingsTabNameField.setText(pref.get("sensor1_Tab_Text", "1234"));
+        settingsTempFieldA.setValue(pref.get("sensor1_Temp_Field", "1234"));
+        settingsHumidityFieldA.setValue(pref.get("sensor1_Humd_Field", "1234"));
+        settingsChanIDFieldTabB.setText(pref.get("sensor2_Chan_ID", "1234"));
+        settingsReadAPIFieldB.setText(pref.get("sensor2_ReadAPI", "1234"));
+        settingsTabNameFieldB.setText(pref.get("sensor2_Tab_Text", "1234"));
+        settingsTempFieldB.setValue(pref.get("sensor2_Temp_Field", "1234"));
+        settingsHumidityFieldB.setValue(pref.get("sensor2_Humd_Field", "1234"));
+        settingsLogLeveldrop.setValue(settings.getLogLevel());
+        setLogLevel(settings.getLogLevel());
+        
+        createSensorObj(pref);
+        
+        ///////////
+
+        ReadingsObj tabA = new ReadingsObj(
+                Integer.parseInt(pref.get("sensor1_Chan_ID", "1234")),
+                pref.get("sensor1_ReadAPI", "xxxxxx"),
+                Integer.parseInt(pref.get("sensor1_Temp_Field", "1234")),
+                Integer.parseInt(pref.get("sensor1_Humd_Field", "1234")),
+                aTab,
+                pref.get("sensor1_Tab_Text", "xxxxxx"),
+                tempGrapha, humidityGrapha);
+
+        writeToGraph(tabA.getTempGraphName(), tabA, tabA.gettempID());
+        writeToGraph(tabA.getHumdGraphName(), tabA, tabA.gethumdID());
+        Feed tabAfeed = tabA.getThingFeed();
+        Sensor1TempGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gettempID())));
+        Sensor1HumdGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gethumdID())));
+        Sensor1SummaryLabel.setText(tabA.getTabText());
+        
+        //////////
+
+        ReadingsObj tabB = new ReadingsObj(
+                Integer.parseInt(pref.get("sensor2_Chan_ID", "1234")),
+                pref.get("sensor2_ReadAPI", "xxxxxx"),
+                Integer.parseInt(pref.get("sensor2_Temp_Field", "1234")),
+                Integer.parseInt(pref.get("sensor2_Humd_Field", "1234")),
+                bTab,
+                pref.get("sensor2_Tab_Text", "xxxxxx"),
+                tempGraphb, humidityGraphb);
+
+        writeToGraph(tabB.getTempGraphName(), tabB, tabB.gettempID());
+        writeToGraph(tabB.getHumdGraphName(), tabB, tabB.gethumdID());
+        Feed tabBfeed = tabB.getThingFeed();
+        Sensor2TempGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gettempID())));
+        Sensor2HumdGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gethumdID())));
+        Sensor2SummaryLabel.setText(tabB.getTabText());
+        ///////////////////
+    }
+
+    public void createSensorObj (Preferences prefs){
+        
+    }
+    
+    public void writeToGraph(LineChart targetGraph, ReadingsObj sensorObj, int measurementID) throws ThingSpeakException, UnirestException {
+        Feed feed = sensorObj.getThingFeed();
+        int startID = (feed.getChannelLastEntryId() - settings.getSampNum()) + 1;
+        DateFormat dateFormat = new SimpleDateFormat("h:mm a");
+        XYChart.Series<String, Number> dataSeries = new XYChart.Series();
+
+        for (int i = 0; i < settings.getSampNum(); i++) {
+            double tempEntry = Double.parseDouble((String) feed.getEntry(startID + i).getField(measurementID));
+            String timeStampStr2 = dateFormat.format(feed.getEntry(startID + i).getCreated());
+            dataSeries.getData().add(new XYChart.Data(timeStampStr2, tempEntry));
+
+        }
+        sensorObj.getTabName().setText(sensorObj.getTabText());
+        targetGraph.getData().addAll(dataSeries);
 
     }
 
@@ -211,22 +242,6 @@ public class FXMLDocumentController implements Initializable {
 
     ;
     
-    public void writeToGraph(LineChart targetGraph, ReadingsObj sensorObj, int measurementID) throws ThingSpeakException, UnirestException {
-        Feed feed = sensorObj.getThingFeed();
-        int startID = (feed.getChannelLastEntryId() - settings.getSampNum()) + 1;
-        DateFormat dateFormat = new SimpleDateFormat("h:mm a");
-        XYChart.Series<String, Number> dataSeries = new XYChart.Series();
-
-        for (int i = 0; i < settings.getSampNum(); i++) {
-            double tempEntry = Double.parseDouble((String) feed.getEntry(startID + i).getField(measurementID));
-            String timeStampStr2 = dateFormat.format(feed.getEntry(startID + i).getCreated());
-            dataSeries.getData().add(new XYChart.Data(timeStampStr2, tempEntry));
-
-        }
-        sensorObj.getTabName().setText(sensorObj.getTabText());
-        targetGraph.getData().addAll(dataSeries);
-
-    }
 
     public void setLogLevel(String logLev) {
         Level levLevel = Level.toLevel(logLev);
