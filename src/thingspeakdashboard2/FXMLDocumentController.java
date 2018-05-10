@@ -53,8 +53,7 @@ public class FXMLDocumentController implements Initializable {
     Logger log = Logger.getLogger(FXMLDocumentController.class.getName());
 
     //============= Methods that do stuff ==================//
-    
-        public void SetPrefs(
+    public void SetPrefs(
             String refreshTime,
             String sampleNumber,
             String sensor1ChanID,
@@ -91,7 +90,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-        
+
     public void GetPrefs() throws ThingSpeakException, UnirestException, FileNotFoundException {
 
         try (InputStream is = new BufferedInputStream(new FileInputStream("preferences.xml"))) {
@@ -122,51 +121,50 @@ public class FXMLDocumentController implements Initializable {
         settingsHumidityFieldB.setValue(pref.get("sensor2_Humd_Field", "1234"));
         settingsLogLeveldrop.setValue(settings.getLogLevel());
         setLogLevel(settings.getLogLevel());
-        
-        createSensorObj(pref);
-        
-        ///////////
 
-        ReadingsObj tabA = new ReadingsObj(
-                Integer.parseInt(pref.get("sensor1_Chan_ID", "1234")),
-                pref.get("sensor1_ReadAPI", "xxxxxx"),
-                Integer.parseInt(pref.get("sensor1_Temp_Field", "1234")),
-                Integer.parseInt(pref.get("sensor1_Humd_Field", "1234")),
-                aTab,
-                pref.get("sensor1_Tab_Text", "xxxxxx"),
-                tempGrapha, humidityGrapha);
-
-        writeToGraph(tabA.getTempGraphName(), tabA, tabA.gettempID());
-        writeToGraph(tabA.getHumdGraphName(), tabA, tabA.gethumdID());
-        Feed tabAfeed = tabA.getThingFeed();
-        Sensor1TempGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gettempID())));
-        Sensor1HumdGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gethumdID())));
-        Sensor1SummaryLabel.setText(tabA.getTabText());
-        
-        //////////
-
-        ReadingsObj tabB = new ReadingsObj(
-                Integer.parseInt(pref.get("sensor2_Chan_ID", "1234")),
-                pref.get("sensor2_ReadAPI", "xxxxxx"),
-                Integer.parseInt(pref.get("sensor2_Temp_Field", "1234")),
-                Integer.parseInt(pref.get("sensor2_Humd_Field", "1234")),
-                bTab,
-                pref.get("sensor2_Tab_Text", "xxxxxx"),
-                tempGraphb, humidityGraphb);
-
-        writeToGraph(tabB.getTempGraphName(), tabB, tabB.gettempID());
-        writeToGraph(tabB.getHumdGraphName(), tabB, tabB.gethumdID());
-        Feed tabBfeed = tabB.getThingFeed();
-        Sensor2TempGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gettempID())));
-        Sensor2HumdGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gethumdID())));
-        Sensor2SummaryLabel.setText(tabB.getTabText());
-        ///////////////////
     }
 
-    public void createSensorObj (Preferences prefs){
-        
+    public void createSensorObj(Preferences prefs, int tabNum) throws ThingSpeakException, UnirestException, FileNotFoundException {
+        switch (tabNum) {
+            case 1:
+                log.info("Setting up Sensor 1");
+                ReadingsObj tabA = new ReadingsObj(
+                        Integer.parseInt(pref.get("sensor1_Chan_ID", "1234")),
+                        pref.get("sensor1_ReadAPI", "xxxxxx"),
+                        Integer.parseInt(pref.get("sensor1_Temp_Field", "1234")),
+                        Integer.parseInt(pref.get("sensor1_Humd_Field", "1234")),
+                        aTab,
+                        pref.get("sensor1_Tab_Text", "xxxxxx"),
+                        tempGrapha, humidityGrapha);
+
+                writeToGraph(tabA.getTempGraphName(), tabA, tabA.gettempID());
+                writeToGraph(tabA.getHumdGraphName(), tabA, tabA.gethumdID());
+                Feed tabAfeed = tabA.getThingFeed();
+                Sensor1TempGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gettempID())));
+                Sensor1HumdGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gethumdID())));
+                Sensor1SummaryLabel.setText(tabA.getTabText());
+                break;
+            case 2:
+                log.info("Setting up Sensor 2");
+                ReadingsObj tabB = new ReadingsObj(
+                        Integer.parseInt(pref.get("sensor2_Chan_ID", "1234")),
+                        pref.get("sensor2_ReadAPI", "xxxxxx"),
+                        Integer.parseInt(pref.get("sensor2_Temp_Field", "1234")),
+                        Integer.parseInt(pref.get("sensor2_Humd_Field", "1234")),
+                        bTab,
+                        pref.get("sensor2_Tab_Text", "xxxxxx"),
+                        tempGraphb, humidityGraphb);
+
+                writeToGraph(tabB.getTempGraphName(), tabB, tabB.gettempID());
+                writeToGraph(tabB.getHumdGraphName(), tabB, tabB.gethumdID());
+                Feed tabBfeed = tabB.getThingFeed();
+                Sensor2TempGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gettempID())));
+                Sensor2HumdGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gethumdID())));
+                Sensor2SummaryLabel.setText(tabB.getTabText());
+                break;
+        }
     }
-    
+
     public void writeToGraph(LineChart targetGraph, ReadingsObj sensorObj, int measurementID) throws ThingSpeakException, UnirestException {
         Feed feed = sensorObj.getThingFeed();
         int startID = (feed.getChannelLastEntryId() - settings.getSampNum()) + 1;
@@ -213,11 +211,12 @@ public class FXMLDocumentController implements Initializable {
                                 tempGraphb.getData().clear();
                                 humidityGraphb.getData().clear();
                                 try {
-                                    GetPrefs();
+                                    log.info("Creating objects within loop thread");
+                                    createSensorObj(pref, 1);
+                                    createSensorObj(pref, 2);
                                 } catch (FileNotFoundException ex) {
                                     log.log(Priority.ERROR, ex);
                                 }
-                                //graphData(garage);
                                 RefreshNum.setText(runTask.messageProperty().getValue());
                                 log.info("Looping!");
                             } catch (ThingSpeakException | UnirestException ex) {
@@ -271,7 +270,8 @@ public class FXMLDocumentController implements Initializable {
             tempGraphb.getData().clear();
             humidityGrapha.getData().clear();
             humidityGrapha.getData().clear();
-            GetPrefs();
+            createSensorObj(pref, 1);
+            createSensorObj(pref, 2);
             log.info("Refresh once button pushed");
         } catch (FileNotFoundException ex) {
             log.log(Priority.ERROR, ex);
@@ -435,7 +435,10 @@ public class FXMLDocumentController implements Initializable {
             BasicConfigurator.configure();
 
             stopAutoRefreshMenuItem.setDisable(true);
+
             GetPrefs();
+            createSensorObj(pref, 1);
+            createSensorObj(pref, 2);
             RefreshNum.setVisible(false);
             RefreshNumLabel.setVisible(false);
             log.info("Application startup");
