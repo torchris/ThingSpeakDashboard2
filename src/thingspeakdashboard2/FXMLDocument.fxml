@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.collections.*?>
 
-<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="837.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thingspeakdashboard2.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="925.0" prefWidth="1015.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thingspeakdashboard2.FXMLDocumentController">
 
     <children>
         <MenuBar fx:id="appMenuBar" layoutY="2.0">
@@ -37,44 +37,44 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <TabPane fx:id="sensorTabPane" layoutX="9.0" layoutY="40.0" prefHeight="774.0" prefWidth="1006.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane fx:id="sensorTabPane" layoutX="9.0" layoutY="40.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab fx:id="SumaaryTab" closable="false" text="Summary">
                     <content>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                        <AnchorPane prefHeight="831.0" prefWidth="1006.0">
                             <children>
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="284.0" layoutX="108.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="791.0" />
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="316.0" layoutX="110.0" layoutY="401.0" stroke="BLACK" strokeType="INSIDE" width="788.0" />
-                                <Label fx:id="Sensor1SummaryLabel" layoutX="108.0" layoutY="24.0" text="Label">
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="343.0" layoutX="20.0" layoutY="41.0" stroke="BLACK" strokeType="INSIDE" width="309.0" />
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="378.0" layoutX="15.0" layoutY="428.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
+                                <Label fx:id="Sensor1SummaryLabel" layoutX="131.0" layoutY="6.0" prefHeight="27.0" prefWidth="74.0" text="Label">
                                     <font>
                                         <Font name="System Bold Italic" size="18.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="Sensor2SummaryLabel" layoutX="110.0" layoutY="359.0" text="Label">
+                                <Label fx:id="Sensor2SummaryLabel" layoutX="151.0" layoutY="390.0" text="Label">
                                     <font>
                                         <Font name="System Bold Italic" size="18.0" />
                                     </font>
                                 </Label>
-                                <Gauge fx:id="Sensor1TempGauge" animated="true" layoutX="150.0" layoutY="77.0" lcdCrystalEnabled="true" lcdDesign="BLUE_BLACK" lcdVisible="true" maxValue="50.0" unit="° C" />
-                                <Gauge fx:id="Sensor1HumdGauge" layoutX="577.0" layoutY="77.0" lcdDesign="BLUE_BLACK" lcdVisible="true" unit="\%" />
-                                <Gauge fx:id="Sensor2HumdGauge" layoutX="577.0" layoutY="434.0" lcdDesign="BLUE_BLACK" lcdVisible="true" unit="\%" />
-                                <Gauge fx:id="Sensor2TempGauge" layoutX="169.0" layoutY="434.0" lcdDesign="BLUE_BLACK" lcdVisible="true" maxValue="50.0" unit="° C" />
-                                <Label layoutX="232.0" layoutY="310.0" text="Temperature">
+                                <Gauge fx:id="Sensor1TempGauge" animated="true" layoutX="20.0" layoutY="19.0" lcdCrystalEnabled="true" lcdDesign="BLUE_BLACK" lcdVisible="true" maxValue="50.0" skinType="LINEAR" unit="° C" />
+                                <Gauge fx:id="Sensor1HumdGauge" layoutX="184.0" layoutY="19.0" lcdDesign="BLUE_BLACK" lcdVisible="true" skinType="LINEAR" unit="\%" />
+                                <Gauge fx:id="Sensor2HumdGauge" layoutX="184.0" layoutY="413.0" lcdDesign="BLUE_BLACK" lcdVisible="true" skinType="LINEAR" unit="\%" />
+                                <Gauge fx:id="Sensor2TempGauge" layoutX="20.0" layoutY="413.0" lcdDesign="BLUE_BLACK" lcdVisible="true" maxValue="50.0" skinType="LINEAR" unit="° C" />
+                                <Label layoutX="61.0" layoutY="359.0" text="Temperature">
                                     <font>
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="232.0" layoutY="675.0" text="Temperature">
+                                <Label layoutX="61.0" layoutY="753.0" text="Temperature">
                                     <font>
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="671.0" layoutY="675.0" text="Humidity">
+                                <Label layoutX="210.0" layoutY="753.0" text="Humidity">
                                     <font>
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
-                                <Label layoutX="671.0" layoutY="310.0" text="Humidity">
+                                <Label layoutX="230.0" layoutY="359.0" text="Humidity">
                                     <font>
                                         <Font name="System Bold" size="14.0" />
                                     </font>
@@ -136,8 +136,8 @@
                     <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
                             <children>
-                                <Button fx:id="settingApplyButton" layoutX="440.0" layoutY="685.0" mnemonicParsing="false" onAction="#handleApplyButtonAction" text="Apply" />
-                                <Button fx:id="settingCancelButton" layoutX="515.0" layoutY="685.0" mnemonicParsing="false" onAction="#handleCancelButtonAction" text="Cancel" />
+                                <Button fx:id="settingApplyButton" layoutX="443.0" layoutY="761.0" mnemonicParsing="false" onAction="#handleApplyButtonAction" text="Apply" />
+                                <Button fx:id="settingCancelButton" layoutX="518.0" layoutY="761.0" mnemonicParsing="false" onAction="#handleCancelButtonAction" text="Cancel" />
                                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="88.0" layoutX="23.0" layoutY="41.0" stroke="BLACK" strokeType="INSIDE" width="885.0" />
                                 <Label layoutX="38.0" layoutY="77.0" text="Refresh time:" />
                                 <Label layoutX="300.0" layoutY="77.0" text="Number of samples:" />
@@ -148,14 +148,14 @@
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Text>
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="453.0" layoutX="19.0" layoutY="185.0" stroke="BLACK" strokeType="INSIDE" width="888.0" />
-                                <Text layoutX="23.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sensor Settings" wrappingWidth="159.611328125">
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="557.0" layoutX="19.0" layoutY="185.0" stroke="BLACK" strokeType="INSIDE" width="917.0" />
+                                <Text layoutX="23.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tab Settings" wrappingWidth="159.611328125">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Text>
                                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="122.0" layoutX="38.0" layoutY="238.0" stroke="BLACK" strokeType="INSIDE" width="855.0" />
-                                <Text layoutX="38.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sensor 1">
+                                <Text layoutX="38.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tab 1">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
@@ -197,11 +197,11 @@
                                 <TextField fx:id="settingsChanIDFieldTabA" layoutX="219.0" layoutY="252.0" />
                                 <TextField fx:id="settingsReadAPIField" layoutX="219.0" layoutY="285.0" />
                                 <TextField fx:id="settingsTabNameField" layoutX="219.0" layoutY="319.0" />
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="122.0" layoutX="38.0" layoutY="427.0" stroke="BLACK" strokeType="INSIDE" width="855.0" />
-                                <TextField fx:id="settingsTabNameFieldB" layoutX="219.0" layoutY="508.0" />
-                                <TextField fx:id="settingsReadAPIFieldB" layoutX="219.0" layoutY="474.0" />
-                                <TextField fx:id="settingsChanIDFieldTabB" layoutX="219.0" layoutY="441.0" />
-                                <ChoiceBox fx:id="settingsHumidityFieldB" layoutX="622.0" layoutY="476.0" prefWidth="150.0">
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="122.0" layoutX="38.0" layoutY="398.0" stroke="BLACK" strokeType="INSIDE" width="855.0" />
+                                <TextField fx:id="settingsTabNameFieldB" layoutX="219.0" layoutY="479.0" />
+                                <TextField fx:id="settingsReadAPIFieldB" layoutX="219.0" layoutY="445.0" />
+                                <TextField fx:id="settingsChanIDFieldTabB" layoutX="219.0" layoutY="412.0" />
+                                <ChoiceBox fx:id="settingsHumidityFieldB" layoutX="622.0" layoutY="447.0" prefWidth="150.0">
                                     <items>
                                         <FXCollections fx:factory="observableArrayList">
                                             <String fx:value="1" />
@@ -215,7 +215,7 @@
                                         </FXCollections>
                                     </items>
                                 </ChoiceBox>
-                                <ChoiceBox fx:id="settingsTempFieldB" layoutX="622.0" layoutY="441.0" prefWidth="150.0">
+                                <ChoiceBox fx:id="settingsTempFieldB" layoutX="622.0" layoutY="412.0" prefWidth="150.0">
                                     <items>
                                         <FXCollections fx:factory="observableArrayList">
                                             <String fx:value="1" />
@@ -229,18 +229,18 @@
                                         </FXCollections>
                                     </items>
                                 </ChoiceBox>
-                                <Label layoutX="62.0" layoutY="512.0" text="Text for tab name (location):" />
-                                <Label layoutX="400.0" layoutY="478.0" text="ThingSpeak Field Number for Humidity:" />
-                                <Label layoutX="408.0" layoutY="445.0" text="ThingSpeak Field Number for Temp:" />
-                                <Label layoutX="65.0" layoutY="478.0" text="ThingSpeak Read API:" />
-                                <Label layoutX="65.0" layoutY="445.0" text="ThingSpeak Channel ID:" />
-                                <Text layoutX="38.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sensor 2">
+                                <Label layoutX="62.0" layoutY="483.0" text="Text for tab name (location):" />
+                                <Label layoutX="400.0" layoutY="449.0" text="ThingSpeak Field Number for Humidity:" />
+                                <Label layoutX="408.0" layoutY="416.0" text="ThingSpeak Field Number for Temp:" />
+                                <Label layoutX="65.0" layoutY="449.0" text="ThingSpeak Read API:" />
+                                <Label layoutX="65.0" layoutY="416.0" text="ThingSpeak Channel ID:" />
+                                <Text layoutX="38.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tab 2">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Text>
                                 <Label layoutX="622.0" layoutY="77.0" text="Log level" />
-                                <ChoiceBox fx:id="settingsLogLeveldrop" layoutX="688.0" layoutY="73.0" prefWidth="150.0" >
+                                <ChoiceBox fx:id="settingsLogLeveldrop" layoutX="688.0" layoutY="73.0" prefWidth="150.0">
                                 <items>
                                     <FXCollections fx:factory="observableArrayList">
                                         <String fx:value="OFF" />
@@ -254,6 +254,48 @@
                                     </FXCollections>
                                 </items>
                                 </ChoiceBox>
+                        <ChoiceBox fx:id="settingsHumidityFieldC" layoutX="622.0" layoutY="613.0" prefWidth="150.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="1" />
+                                 <String fx:value="2" />
+                                 <String fx:value="3" />
+                                 <String fx:value="4" />
+                                 <String fx:value="5" />
+                                 <String fx:value="6" />
+                                 <String fx:value="7" />
+                                 <String fx:value="8" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="122.0" layoutX="38.0" layoutY="564.0" stroke="BLACK" strokeType="INSIDE" width="855.0" />
+                        <Label layoutX="408.0" layoutY="582.0" text="ThingSpeak Field Number for Temp:" />
+                        <ChoiceBox fx:id="settingsTempFieldC" layoutX="622.0" layoutY="578.0" prefWidth="150.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="1" />
+                                 <String fx:value="2" />
+                                 <String fx:value="3" />
+                                 <String fx:value="4" />
+                                 <String fx:value="5" />
+                                 <String fx:value="6" />
+                                 <String fx:value="7" />
+                                 <String fx:value="8" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
+                        <TextField fx:id="settingsChanIDFieldTabC" layoutX="219.0" layoutY="578.0" />
+                        <TextField fx:id="settingsReadAPIFieldC" layoutX="219.0" layoutY="611.0" />
+                        <Label layoutX="62.0" layoutY="649.0" text="Text for tab name (location):" />
+                        <Label layoutX="65.0" layoutY="582.0" text="ThingSpeak Channel ID:" />
+                        <Label layoutX="65.0" layoutY="615.0" text="ThingSpeak Read API:" />
+                        <Text layoutX="38.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tab 3">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Text>
+                        <Label layoutX="400.0" layoutY="615.0" text="ThingSpeak Field Number for Humidity:" />
+                        <TextField fx:id="settingsTabNameFieldC" layoutX="219.0" layoutY="645.0" />
                             </children>
                         </AnchorPane>
                     </content>
