@@ -13,15 +13,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import com.angryelectron.thingspeak.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import org.apache.log4j.Logger;
 import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.XYChart;
 import org.apache.log4j.BasicConfigurator;
 import javafx.concurrent.Task;
 import javafx.scene.control.Button;
@@ -38,8 +35,10 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 import javafx.scene.control.ChoiceBox;
 import eu.hansolo.medusa.Gauge;
-import java.io.File;
-import org.apache.log4j.Level;
+import javafx.scene.Cursor;
+import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Rectangle;
 import org.apache.log4j.Priority;
 
 /**
@@ -66,6 +65,10 @@ public class FXMLDocumentController implements Initializable {
             String tabBText,
             String sensor2TempField,
             String sensor2HumdField,
+            String sensor3ChanID,
+            String sensor3ReadAPI,
+            String tabCText,
+            String sensor3PowerField,
             String logLevel) throws ThingSpeakException, UnirestException, FileNotFoundException {
 
         try {
@@ -82,6 +85,10 @@ public class FXMLDocumentController implements Initializable {
             pref.put("sensor2_Temp_Field", sensor2TempField);
             pref.put("sensor2_Humd_Field", sensor2HumdField);
             pref.put("defaultLogLevel", logLevel);
+            pref.put("sensor3_Chan_ID", sensor3ChanID);
+            pref.put("sensor3_ReadAPI", sensor3ReadAPI);
+            pref.put("sensor3_Tab_Text", tabCText);
+            pref.put("sensor3_Power_Field", sensor3PowerField);
             pref.exportSubtree(new BufferedOutputStream(new FileOutputStream("preferences.xml")));
         } catch (IOException ex) {
             log.log(Priority.ERROR, ex);
@@ -119,8 +126,12 @@ public class FXMLDocumentController implements Initializable {
         settingsTabNameFieldB.setText(pref.get("sensor2_Tab_Text", "1234"));
         settingsTempFieldB.setValue(pref.get("sensor2_Temp_Field", "1234"));
         settingsHumidityFieldB.setValue(pref.get("sensor2_Humd_Field", "1234"));
+        settingsChanIDFieldTabC.setText(pref.get("sensor3_Chan_ID", "1234"));
+        settingsReadAPIFieldC.setText(pref.get("sensor3_ReadAPI", "1234"));
+        settingsTabNameFieldC.setText(pref.get("sensor3_Tab_Text", "1234"));
+        settingsPowerFieldC.setValue(pref.get("sensor3_Power_Field", "1234"));
         settingsLogLeveldrop.setValue(settings.getLogLevel());
-        setLogLevel(settings.getLogLevel());
+        Utility.setLogLevel(settings.getLogLevel());
 
     }
 
@@ -137,8 +148,8 @@ public class FXMLDocumentController implements Initializable {
                         pref.get("sensor1_Tab_Text", "xxxxxx"),
                         tempGrapha, humidityGrapha);
 
-                writeToGraph(tabA.getTempGraphName(), tabA, tabA.gettempID());
-                writeToGraph(tabA.getHumdGraphName(), tabA, tabA.gethumdID());
+                Utility.writeToGraph(tabA.getTempGraphName(), tabA, tabA.gettempID());
+                Utility.writeToGraph(tabA.getHumdGraphName(), tabA, tabA.gethumdID());
                 Feed tabAfeed = tabA.getThingFeed();
                 Sensor1TempGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gettempID())));
                 Sensor1HumdGauge.setValue(Double.parseDouble((String) tabAfeed.getChannelLastEntry().getField(tabA.gethumdID())));
@@ -155,32 +166,34 @@ public class FXMLDocumentController implements Initializable {
                         pref.get("sensor2_Tab_Text", "xxxxxx"),
                         tempGraphb, humidityGraphb);
 
-                writeToGraph(tabB.getTempGraphName(), tabB, tabB.gettempID());
-                writeToGraph(tabB.getHumdGraphName(), tabB, tabB.gethumdID());
+                Utility.writeToGraph(tabB.getTempGraphName(), tabB, tabB.gettempID());
+                Utility.writeToGraph(tabB.getHumdGraphName(), tabB, tabB.gethumdID());
                 Feed tabBfeed = tabB.getThingFeed();
                 Sensor2TempGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gettempID())));
                 Sensor2HumdGauge.setValue(Double.parseDouble((String) tabBfeed.getChannelLastEntry().getField(tabB.gethumdID())));
                 Sensor2SummaryLabel.setText(tabB.getTabText());
                 break;
+
+            case 3:
+                log.info("Setting up Sensor 3");
+                ReadingsObj tabC = new ReadingsObj(
+                        Integer.parseInt(
+                                pref.get("sensor3_Chan_ID", "1234")),
+                        pref.get("sensor3_ReadAPI", "xxxxxx"),
+                        Integer.parseInt(pref.get("sensor3_Power_Field", "1234")),
+                        cTab,
+                        pref.get("sensor3_Tab_Text", "xxxxxx"),
+                        powerGraphc);
+
+                Utility.writeToGraph(tabC.getPowerGraphName(), tabC, tabC.getPowerID());
+                Feed tabCfeed = tabC.getThingFeed();
+                powerGauge.setValue(Double.parseDouble((String) tabCfeed.getChannelLastEntry().getField(tabC.getPowerID())));
+                PowerSummaryLabel.setText(tabC.getTabText());
+                break;
         }
     }
 
-    public void writeToGraph(LineChart targetGraph, ReadingsObj sensorObj, int measurementID) throws ThingSpeakException, UnirestException {
-        Feed feed = sensorObj.getThingFeed();
-        int startID = (feed.getChannelLastEntryId() - settings.getSampNum()) + 1;
-        DateFormat dateFormat = new SimpleDateFormat("h:mm a");
-        XYChart.Series<String, Number> dataSeries = new XYChart.Series();
 
-        for (int i = 0; i < settings.getSampNum(); i++) {
-            double tempEntry = Double.parseDouble((String) feed.getEntry(startID + i).getField(measurementID));
-            String timeStampStr2 = dateFormat.format(feed.getEntry(startID + i).getCreated());
-            dataSeries.getData().add(new XYChart.Data(timeStampStr2, tempEntry));
-
-        }
-        sensorObj.getTabName().setText(sensorObj.getTabText());
-        targetGraph.getData().addAll(dataSeries);
-
-    }
 
     Task<Integer> runTask;
 
@@ -210,10 +223,12 @@ public class FXMLDocumentController implements Initializable {
                                 humidityGrapha.getData().clear();
                                 tempGraphb.getData().clear();
                                 humidityGraphb.getData().clear();
+                                powerGraphc.getData().clear();
                                 try {
                                     log.info("Creating objects within loop thread");
                                     createSensorObj(pref, 1);
                                     createSensorObj(pref, 2);
+                                    createSensorObj(pref, 3);
                                 } catch (FileNotFoundException ex) {
                                     log.log(Priority.ERROR, ex);
                                 }
@@ -239,14 +254,10 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    ;
+    
     
 
-    public void setLogLevel(String logLev) {
-        Level levLevel = Level.toLevel(logLev);
-        Logger root = Logger.getRootLogger();
-        root.setLevel(levLevel);
-    }
+
 
 //==============Interface action handlers================//
     @FXML
@@ -317,8 +328,12 @@ public class FXMLDocumentController implements Initializable {
                         settingsTabNameFieldB.getText(),
                         settingsTempFieldB.getValue(),
                         settingsHumidityFieldB.getValue(),
+                        settingsChanIDFieldTabC.getText(),
+                        settingsReadAPIFieldC.getText(),
+                        settingsTabNameFieldC.getText(),
+                        settingsPowerFieldC.getValue(),
                         settingsLogLeveldrop.getValue());
-                setLogLevel((String) settingsLogLeveldrop.getValue());
+                Utility.setLogLevel((String) settingsLogLeveldrop.getValue());
             } catch (FileNotFoundException ex) {
                 log.log(Priority.ERROR, ex);
             }
@@ -338,7 +353,33 @@ public class FXMLDocumentController implements Initializable {
         log.info("Clicked cancel button.");
     }
 
+    @FXML
+    public void handleClickRectangleA(MouseEvent event) {
+        sensorTabPane.getSelectionModel().select(aTab);
+    }
+
+    @FXML
+    public void handleClickRectangleB(MouseEvent event) {
+        sensorTabPane.getSelectionModel().select(bTab);
+    }
+
+    @FXML
+    public void handleClickRectangleC(MouseEvent event) {
+        sensorTabPane.getSelectionModel().select(cTab);
+    }
+    
+    @FXML void handleMouseEnterRectangleA(MouseEvent event){
+        sensorTabPane.setCursor(Cursor.HAND);
+    }
+     @FXML void handleMouseLeaveRectangleA(MouseEvent event){
+        sensorTabPane.setCursor(Cursor.DEFAULT);
+    }   
+    
+
     //=================Interface elements===============//
+    @FXML
+    private TabPane sensorTabPane;
+
     @FXML
     private LineChart<String, Number> tempGrapha;
     @FXML
@@ -359,6 +400,10 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Tab bTab;
+
+    @FXML
+    private Tab cTab;
+
     @FXML
     private LineChart<String, Number> tempGraphb;
     @FXML
@@ -425,7 +470,36 @@ public class FXMLDocumentController implements Initializable {
     private Label Sensor2SummaryLabel;
 
     @FXML
+    private Label PowerSummaryLabel;
+
+    @FXML
     private ChoiceBox<String> settingsLogLeveldrop;
+
+    @FXML
+    private Gauge powerGauge;
+
+    @FXML
+    private LineChart<String, Number> powerGraphc;
+
+    @FXML
+    private TextField settingsChanIDFieldTabC;
+
+    @FXML
+    private TextField settingsReadAPIFieldC;
+
+    @FXML
+    private TextField settingsTabNameFieldC;
+
+    @FXML
+    private ChoiceBox<String> settingsPowerFieldC;
+
+    @FXML
+    private Rectangle tabArectangle;
+
+    @FXML
+    private Rectangle tabBrectangle;
+    @FXML
+    private Rectangle tabCrectangle;
 
     //=================Initialize and start application=========//
     @Override
@@ -439,6 +513,7 @@ public class FXMLDocumentController implements Initializable {
             GetPrefs();
             createSensorObj(pref, 1);
             createSensorObj(pref, 2);
+            createSensorObj(pref, 3);
             RefreshNum.setVisible(false);
             RefreshNumLabel.setVisible(false);
             log.info("Application startup");

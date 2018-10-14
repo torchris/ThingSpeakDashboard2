@@ -43,8 +43,8 @@
                     <content>
                         <AnchorPane prefHeight="831.0" prefWidth="1006.0">
                             <children>
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="343.0" layoutX="20.0" layoutY="41.0" stroke="BLACK" strokeType="INSIDE" width="309.0" />
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="378.0" layoutX="15.0" layoutY="428.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="343.0" layoutX="20.0" layoutY="41.0" onMouseClicked="#handleClickRectangleA" stroke="BLACK" strokeType="INSIDE" width="309.0" />
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="362.0" layoutX="15.0" layoutY="428.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
                                 <Label fx:id="Sensor1SummaryLabel" layoutX="131.0" layoutY="6.0" prefHeight="27.0" prefWidth="74.0" text="Label">
                                     <font>
                                         <Font name="System Bold Italic" size="18.0" />
@@ -79,6 +79,15 @@
                                         <Font name="System Bold" size="14.0" />
                                     </font>
                                 </Label>
+                        <Gauge fx:id="powerGauge" layoutX="442.0" layoutY="88.0" maxValue="10.0" skinType="SIMPLE_SECTION" unit="kW" />
+                        <Label fx:id="PowerSummaryLabel" layoutX="530.0" layoutY="41.0" prefHeight="27.0" prefWidth="74.0" text="Label">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                        <Rectangle fx:id="tabArectangle" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="372.0" layoutX="13.0" layoutY="14.0" onMouseClicked="#handleClickRectangleA" onMouseEntered="#handleMouseEnterRectangleA" onMouseExited="#handleMouseLeaveRectangleA" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="336.0" />
+                        <Rectangle fx:id="tabBrectangle" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="400.0" layoutX="13.0" layoutY="390.0" onMouseClicked="#handleClickRectangleB" onMouseEntered="#handleMouseEnterRectangleA" onMouseExited="#handleMouseLeaveRectangleA" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="336.0" />
+                        <Rectangle fx:id="tabCrectangle" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="349.0" layoutX="391.0" layoutY="20.0" onMouseClicked="#handleClickRectangleC" onMouseEntered="#handleMouseEnterRectangleA" onMouseExited="#handleMouseLeaveRectangleA" opacity="0.0" stroke="BLACK" strokeType="INSIDE" width="335.0" />
                             </children>
                         </AnchorPane>
                     </content>
@@ -132,6 +141,21 @@
                         </AnchorPane>
                     </content>
                 </Tab>
+            <Tab fx:id="cTab" text="Power">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <LineChart fx:id="powerGraphc" animated="false" createSymbols="false" layoutX="80.0" layoutY="62.0" legendVisible="false" prefHeight="381.0" prefWidth="828.0" title="Power Usage">
+                           <xAxis>
+                              <CategoryAxis animated="false" label="Time" side="BOTTOM" fx:id="xAxisHumidity11" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis fx:id="yAxisHumidity11" animated="false" autoRanging="false" label="KwH" side="LEFT" upperBound="7.0" />
+                           </yAxis>
+                        </LineChart>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
                 <Tab fx:id="settingsTab" text="Settings">
                     <content>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -148,8 +172,8 @@
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Text>
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="557.0" layoutX="19.0" layoutY="185.0" stroke="BLACK" strokeType="INSIDE" width="917.0" />
-                                <Text layoutX="23.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tab Settings" wrappingWidth="159.611328125">
+                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="557.0" layoutX="23.0" layoutY="167.0" stroke="BLACK" strokeType="INSIDE" width="917.0" />
+                                <Text layoutX="23.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tab Settings" wrappingWidth="159.611328125">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
@@ -254,23 +278,9 @@
                                     </FXCollections>
                                 </items>
                                 </ChoiceBox>
-                        <ChoiceBox fx:id="settingsHumidityFieldC" layoutX="622.0" layoutY="613.0" prefWidth="150.0">
-                           <items>
-                              <FXCollections fx:factory="observableArrayList">
-                                 <String fx:value="1" />
-                                 <String fx:value="2" />
-                                 <String fx:value="3" />
-                                 <String fx:value="4" />
-                                 <String fx:value="5" />
-                                 <String fx:value="6" />
-                                 <String fx:value="7" />
-                                 <String fx:value="8" />
-                              </FXCollections>
-                           </items>
-                        </ChoiceBox>
-                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="122.0" layoutX="38.0" layoutY="564.0" stroke="BLACK" strokeType="INSIDE" width="855.0" />
-                        <Label layoutX="408.0" layoutY="582.0" text="ThingSpeak Field Number for Temp:" />
-                        <ChoiceBox fx:id="settingsTempFieldC" layoutX="622.0" layoutY="578.0" prefWidth="150.0">
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="122.0" layoutX="38.0" layoutY="563.0" stroke="BLACK" strokeType="INSIDE" width="855.0" />
+                        <Label layoutX="408.0" layoutY="582.0" text="ThingSpeak Field Number for Power:" />
+                        <ChoiceBox fx:id="settingsPowerFieldC" layoutX="622.0" layoutY="578.0" prefWidth="150.0">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="1" />
@@ -289,12 +299,11 @@
                         <Label layoutX="62.0" layoutY="649.0" text="Text for tab name (location):" />
                         <Label layoutX="65.0" layoutY="582.0" text="ThingSpeak Channel ID:" />
                         <Label layoutX="65.0" layoutY="615.0" text="ThingSpeak Read API:" />
-                        <Text layoutX="38.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tab 3">
+                        <Text layoutX="38.0" layoutY="550.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Power - Tab 3">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Text>
-                        <Label layoutX="400.0" layoutY="615.0" text="ThingSpeak Field Number for Humidity:" />
                         <TextField fx:id="settingsTabNameFieldC" layoutX="219.0" layoutY="645.0" />
                             </children>
                         </AnchorPane>

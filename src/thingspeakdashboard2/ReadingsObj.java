@@ -30,7 +30,9 @@ public class ReadingsObj {
     private String tabText;
     private LineChart tempGraphName;
     private LineChart humdGraphName;
+    private LineChart powerGraphName;
     private Feed thingFeed;
+    private int powerID;
     
     /**
      * The prototype of ReadingsObj includes information necessary to create the graph - both info to be fed into ThingSpeak and related to the graphs.
@@ -54,6 +56,27 @@ public class ReadingsObj {
         this.tabText = tabText;
         this.tempGraphName = tempGraphName;
         this.humdGraphName = humdGraphName;
+        this.thingFeed = thingFeed;
+    }
+    
+        /**
+     * Overloaded prototype of ReadingsObj includes information necessary to create ONE graph - both info to be fed into ThingSpeak and related to the graph.
+     * 
+     * @param chanID integer value of channel ID for ThingSpeak
+     * @param readAPI string value of Read API obtained from ThingSpeak.
+     * @param powerID integer value of the ThinhgSpeak field associated with temperature readings.
+     * @param tabName JavaFX Tab object name *
+     * @param tabText string name to actually appear in the tab.
+     * @param powerGraphName JavaFX LineChart object name for the temp graph *
+     */
+    
+        public ReadingsObj(int chanID, String readAPI, int powerID, Tab tabName, String tabText, LineChart powerGraphName) {
+        this.chanID = chanID;
+        this.readAPI = readAPI;
+        this.powerID = powerID;
+        this.tabName = tabName;
+        this.tabText = tabText;
+        this.powerGraphName = powerGraphName;
         this.thingFeed = thingFeed;
     }
 
@@ -205,6 +228,34 @@ public class ReadingsObj {
         Feed feed = sensorChannel.getChannelFeed(options);
         Entry feedEntry = feed.getEntry(feed.getChannelLastEntryId());
         return feed;
+    }
+
+    /**
+     * @return the powerID
+     */
+    public int getPowerID() {
+        return powerID;
+    }
+
+    /**
+     * @param powerID the powerID to set
+     */
+    public void setPowerID(int powerID) {
+        this.powerID = powerID;
+    }
+
+    /**
+     * @return the powerGraphName
+     */
+    public LineChart getPowerGraphName() {
+        return powerGraphName;
+    }
+
+    /**
+     * @param powerGraphName the powerGraphName to set
+     */
+    public void setPowerGraphName(LineChart powerGraphName) {
+        this.powerGraphName = powerGraphName;
     }
 }
 
